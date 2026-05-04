@@ -1,0 +1,206 @@
+/* ==========================================================================
+   1. RESET E CONFIGURAÇÕES GERAIS
+   Objetivo: Garantir que o site tenha o mesmo comportamento em todos os browsers.
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que padding não aumente o tamanho dos elementos */
+}
+
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    background-color: #f8f9fa; /* Fundo levemente cinza para reduzir cansaço visual */
+    color: #333;
+    line-height: 1.6;
+    scroll-behavior: smooth; /* Proporciona uma rolagem suave ao clicar nos links do menu */
+}
+
+/* ==========================================================================
+   2. ACESSIBILIDADE (PCD)
+   Objetivo: Garantir que o site seja utilizável por leitores de tela e teclado.
+   ========================================================================== */
+
+/* Esconde elementos visualmente mas mantém a leitura para softwares de acessibilidade */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    border: 0 !important;
+}
+
+/* Realce visual para navegação via teclado (fundamental para acessibilidade) */
+a:focus, button:focus, input:focus {
+    outline: 3px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   3. CABEÇALHO E NAVEGAÇÃO
+   ========================================================================== */
+header {
+    background-color: #ffffff;
+    border-bottom: 2px solid #eee;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.logo {
+    max-width: 120px;
+    height: auto;
+    transition: transform 0.5s ease-in-out; /* Suaviza o efeito de rotação */
+}
+
+.logo:hover {
+    transform: rotate(360deg); /* Easter egg visual ao passar o mouse */
+}
+
+.nav-link {
+    color: #007bff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #f06; /* Mudança de cor ao passar o mouse para feedback do usuário */
+}
+
+/* ==========================================================================
+   4. CARTÕES E SEÇÕES (Busca, CEP, Carrinho)
+   ========================================================================== */
+.card {
+    background: #ffffff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    animation: slideIn 0.8s ease-out; /* Efeito de entrada ao carregar a página */
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Estilização dos produtos carregados pela API do Mercado Livre */
+.product-card {
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Efeito de flutuação ao passar o mouse */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Garante que as imagens dos produtos tenham o mesmo tamanho e não fiquem distorcidas */
+.card-img-top {
+    object-fit: contain;
+    height: 140px;
+    padding: 10px;
+}
+
+/* ==========================================================================
+   5. FORMULÁRIOS E BOTÕES
+   ========================================================================== */
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+input:focus {
+    border-color: #0d6efd;
+    background-color: #fff;
+}
+
+.btn-primary, .btn-search {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+.btn-success {
+    background-color: #28a745;
+    transition: background 0.3s;
+}
+
+/* Resultado do CEP com destaque visual */
+#resultado-cep {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #007bff, #00d4ff);
+    color: white;
+    font-weight: bold;
+    animation: fadeIn 1s;
+}
+
+/* ==========================================================================
+   6. RODAPÉ
+   ========================================================================== */
+footer {
+    background-color: #212529;
+    color: #fff;
+    padding: 30px 0;
+    text-align: center;
+    margin-top: 40px;
+    border-top: 5px solid #0d6efd; /* Linha de destaque no topo do rodapé */
+}
+
+/* ==========================================================================
+   7. ANIMAÇÕES
+   ========================================================================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   8. RESPONSIVIDADE (Ajustes para Mobile e Tablet)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    h1 {
+        font-size: 1.5rem; /* Diminui o título principal em telas menores */
+    }
+    
+    .card {
+        padding: 15px !important;
+        margin-bottom: 15px;
+    }
+    
+    .logo {
+        max-width: 100px; /* Reduz o logo no celular */
+    }
+}

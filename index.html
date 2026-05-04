@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR"> <!-- Fundamental para acessibilidade: define o idioma para leitores de tela -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja TCHLogico! - Tecnologia de Ponta</title>
+    
+    <!-- SEO Tradicional (Configurado para o Google encontrar seu site) -->
+    <meta name="description" content="Loja TCHLogico - Especialista em notebooks e tecnologia de ponta. Encontre os melhores aparelhos e acessórios via Mercado Livre.">
+    <meta name="keywords" content="notebook, tecnologia, informática, TI, TCHLogico, Rissi Eduardo">
+    <meta name="author" content="Rissi Eduardo">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Redes Sociais (Garante cards bonitos no WhatsApp/LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Loja TCHLogico! - Tecnologia ao seu alcance">
+    <meta property="og:description" content="Confira nossa seleção exclusiva de notebooks e acessórios de TI.">
+    <meta property="og:image" content="ml-logo.jpg">
+
+    <!-- Favicon: Ícone que aparece na aba superior do navegador -->
+    <link rel="icon" type="image/jpg" href="ml-logo.jpg">
+
+    <!-- Bootstrap 5.3 CSS: Estilização responsiva profissional -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    
+    <!-- Google Fonts: Fonte Open Sans para melhor legibilidade -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    
+    <!-- Estilos personalizados do projeto -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Cabeçalho Acessível -->
+    <header class="bg-light py-4 mb-4 border-bottom shadow-sm">
+        <div class="container text-center">
+            <!-- Alt text descritivo para PCDs -->
+            <img class="img-fluid mb-3" src="ml-logo.jpg" alt="Logotipo da TCHLogico - Letras estilizadas em azul e amarelo" style="max-width: 150px;">
+            <h1 class="h3" id="main-title" tabindex="0">Loja de TI: <span class="text-primary">TCHLogico</span></h1>
+            
+            <nav aria-label="Navegação Principal">
+                <ul class="nav justify-content-center mt-3">
+                    <li class="nav-item"><a class="nav-link" href="#">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#carrinho-secao">Carrinho</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#rodape">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Seção de Busca Dinâmica -->
+        <section class="mb-5 p-4 bg-white shadow-sm rounded" aria-labelledby="busca-titulo">
+            <h2 id="busca-titulo" class="h4">Encontre seu produto</h2>
+            <div class="input-group mb-3" style="max-width: 600px;">
+                <label for="search-input" class="visually-hidden">Digite o nome do produto desejado</label>
+                <input type="text" id="search-input" class="form-control" placeholder="Ex: Teclado mecânico...">
+                <button id="btn-search" class="btn btn-primary" type="button">Buscar</button>
+            </div>
+            <!-- aria-live="polite" avisa usuários de leitores de tela quando novos produtos surgem -->
+            <div id="resultado-busca" class="row g-3" aria-live="polite"></div>
+        </section>
+
+        <div class="row">
+            <!-- Calculadora de Frete (API ViaCEP) -->
+            <section class="col-md-5 mb-4" aria-labelledby="cep-titulo">
+                <div class="card h-100 shadow-sm p-4 border-0">
+                    <h2 id="cep-titulo" class="h4 text-secondary">Calcular Frete</h2>
+                    <form id="cepForm">
+                        <div class="mb-3">
+                            <label for="cepInput" class="form-label fw-bold">Digite seu CEP</label>
+                            <input type="text" id="cepInput" class="form-control" placeholder="00000-000" required>
+                        </div>
+                        <button type="submit" class="btn btn-outline-dark w-100">Consultar CEP</button>
+                    </form>
+                    <div id="resultado-cep" class="mt-3 fw-bold text-success" aria-live="polite"></div>
+                </div>
+            </section>
+
+            <!-- Carrinho de Compras Gerenciado por JS -->
+            <section id="carrinho-secao" class="col-md-7 mb-4" aria-labelledby="cart-titulo">
+                <div class="card h-100 shadow-sm p-4 border-0">
+                    <h2 id="cart-titulo" class="h4">Seu Carrinho</h2>
+                    <ul id="cart-items" class="list-group list-group-flush mb-3" aria-live="polite">
+                        <li class="list-group-item text-muted text-center border-0">O carrinho está vazio.</li>
+                    </ul>
+                    <div class="d-grid gap-2">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="h5 mb-0">Total do Pedido:</span>
+                            <span class="fw-bold h4 text-primary" id="total-price">R$ 0,00</span>
+                        </div>
+                        <button class="btn btn-success btn-lg w-100" onclick="finalizarCompra()">Finalizar Compra</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer id="rodape" class="bg-dark text-light py-5 mt-5 text-center">
+        <p class="mb-0">Desenvolvido por <strong>Rissi Eduardo</strong> &copy; 2023</p>
+        <p class="small text-muted mt-2">Projeto acadêmico DevStars - Sem fins comerciais.</p>
+    </footer>    
+
+    <!-- JS do Bootstrap para componentes interativos -->
+    <script src="https://jsdelivr.net"></script>
+    
+    <!-- Biblioteca de Confetes: Efeito visual ao finalizar compra -->
+    <script src="https://jsdelivr.net"></script>
+    
+    <!-- Lógica JavaScript do Sistema -->
+    <script src="main.js"></script>
+</body>
+</html>
