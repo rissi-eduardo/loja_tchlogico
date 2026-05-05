@@ -1,6 +1,6 @@
 # 💻 Loja TCHLogico! - Tecnologia de Ponta
 
-<!-- Badges de Status e Qualidade -->
+<!-- Badges dinâmicas que mostram o status real do projeto -->
 ![Status](https://shields.io)
 ![Acessibilidade](https://shields.io)
 ![SEO](https://shields.io)
@@ -8,34 +8,34 @@
 Projeto de criação de uma loja de tecnologia integrada à **API do Mercado Livre**, desenvolvido como projeto prático no curso da **DevStars**. A aplicação foi construída com foco em **performance**, **segurança de dados** e, primordialmente, **Acessibilidade Web Universal**.
 
 ## 🚀 Funcionalidades Atualizadas
-- **Busca Inteligente:** Integração assíncrona com a API do Mercado Livre para listagem dinâmica de produtos em tempo real.
+- **Busca Inteligente:** Integração assíncrona corrigida para consulta em tempo real na API do Mercado Livre.
 - **Ecossistema de Carrinho:** Lógica avançada para gestão de quantidades, cálculo de subtotais e remoção dinâmica de itens.
-- **Logística Integrada:** Cálculo de frete e validação de endereços utilizando a API **ViaCEP**.
-- **Experiência Gamificada:** Feedback visual com efeito de confetes (`canvas-confetti`) e alertas de sucesso na finalização da compra.
-- **Otimização SEO & Google:** Implementação de Meta Tags Open Graph e verificação via **Google Search Console** para monitoramento de tráfego e indexação profissional.
+- **Logística Integrada:** Consulta de endereço e validação de CEP via **ViaCEP** com tratamento de erros.
+- **Experiência Gamificada:** Feedback visual com efeito de confetes (`canvas-confetti`) na finalização da compra.
+- **Otimização SEO & Google:** Verificação via **Google Search Console** e Meta Tags para compartilhamento em redes sociais.
 
 ## 🛠️ Tecnologias e Padrões
-- **Arquitetura Front-end:** HTML5 Semântico para garantir estrutura lógica, SEO e leitura por dispositivos assistivos.
-- **Estilização Avançada:** CSS3 com animações de entrada (`keyframes`), foco visível para teclados e design **Mobile-First**.
-- **Framework:** **Bootstrap 5.3** para um sistema de grid robusto e 100% responsivo.
+- **Arquitetura Front-end:** HTML5 Semântico para garantir estrutura lógica e SEO.
+- **Estilização:** CSS3 com animações de entrada (`keyframes`) e **Bootstrap 5.3** para responsividade.
 - **JavaScript Moderno (ES6+):** 
-  - `Async/Await`: Gerenciamento eficiente de promessas e requisições às APIs.
-  - `Data Sanitization`: Higienização de strings para prevenir ataques de injeção (XSS).
-  - `DOM Management`: Centralização de seletores para facilitar manutenções futuras.
+  - `Async/Await`: Para requisições assíncronas sem bloqueio de tela.
+  - `Template Strings`: Utilizadas para a construção dinâmica e correta de URLs de API.
+  - `DOM Management`: Organização centralizada de elementos para facilitar a manutenção.
 
 ## ♿ Acessibilidade e Responsividade Plena
-O projeto obedece rigorosamente aos padrões de uso para **PCDs (Pessoas com Deficiência)** e usuários em geral:
-- **Navegação:** Suporte total para navegação via teclado e compatibilidade com leitores de tela (NVDA/Jaws) através de atributos `ARIA`.
-- **Visual:** Contraste de cores validado e `alt text` descritivo em todas as imagens.
-- **Sistemas:** Testado em Windows, macOS, Linux, iOS e Android, garantindo funcionamento pleno em diversos navegadores (Chrome, Safari, Edge, Firefox).
+O projeto obedece rigorosamente aos padrões de uso para **PCDs**:
+- **Navegação:** Suporte total para teclado e leitores de tela através de atributos `ARIA` e `labels` explícitos.
+- **Visual:** Logotipo acessível com link de retorno e descrições `alt` detalhadas em todos os elementos visuais.
+- **Sistemas:** Design **Mobile-First** testado em Windows, macOS, Android e iOS.
 
 ## 📦 Como rodar o projeto localmente
-1. Clone este repositório em sua máquina:
+<!-- Passos simplificados para clonagem e execução -->
+1. Clone este repositório:
    ```bash
    git clone https://github.com/rissi-eduardo/loja_tchlogico
    ```
 2. Acesse a pasta do projeto.
-3. Abra o arquivo `index.html` em seu navegador de preferência.
+3. Abra o arquivo `index.html` em seu navegador.
 
 ---
 **Desenvolvido com dedicação por [Rissi Eduardo](https://github.com/rissi-eduardo/)**  

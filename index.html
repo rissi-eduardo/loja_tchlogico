@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> <!-- Define o idioma para acessibilidade e SEO -->
+<html lang="pt-BR"> <!-- Define o idioma para acessibilidade e correta indexação SEO -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,30 +14,36 @@
     <meta name="author" content="Rissi Eduardo">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph: Configura como o link aparece em redes sociais (LinkedIn, WhatsApp) -->
+    <!-- Open Graph: Configuração para Redes Sociais (LinkedIn, WhatsApp) -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Loja TCHLogico! - Tecnologia ao seu alcance">
     <meta property="og:description" content="Confira nossa seleção exclusiva de notebooks e acessórios de TI.">
     <meta property="og:image" content="ml-logo.jpg">
 
-    <!-- Favicon: Ícone na aba do navegador -->
+    <!-- Favicon: Ícone que aparece na aba do navegador -->
     <link rel="icon" type="image/jpg" href="ml-logo.jpg">
 
-    <!-- Bootstrap 5.3 CSS: Estilização responsiva (Links corrigidos para funcionamento real) -->
+    <!-- Bootstrap 5.3 CSS: Estilização profissional e responsiva -->
     <link href="https://jsdelivr.net" rel="stylesheet">
     
-    <!-- Google Fonts: Tipografia Open Sans -->
+    <!-- Google Fonts: Fonte Open Sans para melhor legibilidade -->
     <link href="https://googleapis.com" rel="stylesheet">
     
-    <!-- Estilos personalizados do seu projeto -->
+    <!-- Estilos personalizados do projeto -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Cabeçalho Principal -->
+    <!-- Cabeçalho Principal Acessível -->
     <header class="bg-light py-4 mb-4 border-bottom shadow-sm">
         <div class="container text-center">
-            <img class="img-fluid mb-3" src="ml-logo.jpg" alt="Logotipo da TCHLogico - Tecnologia" style="max-width: 150px;">
+            <!-- Logotipo Mesclado com Acessibilidade Plena -->
+            <a href="index.html" aria-label="Voltar para a página inicial da TCHLogico" class="text-decoration-none">
+                <img class="img-fluid mb-3" 
+                     src="ml-logo.jpg" 
+                     alt="Logotipo TCHLogico: Texto em azul e amarelo representando tecnologia e inovação" 
+                     style="max-width: 150px;">
+            </a>
             <h1 class="h3" id="main-title" tabindex="0">Loja de TI: <span class="text-primary">TCHLogico</span></h1>
             
             <nav aria-label="Navegação Principal">
@@ -51,20 +57,21 @@
     </header>
 
     <main class="container">
-        <!-- Seção de Busca -->
+        <!-- Seção de Busca Integrada com Mercado Livre -->
         <section class="mb-5 p-4 bg-white shadow-sm rounded" aria-labelledby="busca-titulo">
             <h2 id="busca-titulo" class="h4">Encontre seu produto</h2>
             <div class="input-group mb-3" style="max-width: 600px;">
-                <label for="search-input" class="visually-hidden">Digite o produto</label>
+                <!-- Label para leitores de tela -->
+                <label for="search-input" class="visually-hidden">Digite o produto que deseja pesquisar</label>
                 <input type="text" id="search-input" class="form-control" placeholder="Ex: Teclado mecânico...">
                 <button id="btn-search" class="btn btn-primary" type="button">Buscar</button>
             </div>
-            <!-- aria-live informa leitores de tela sobre novos conteúdos dinâmicos -->
+            <!-- aria-live informa PCDs sobre novos resultados na lista -->
             <div id="resultado-busca" class="row g-3" aria-live="polite"></div>
         </section>
 
         <div class="row">
-            <!-- Consulta de CEP -->
+            <!-- Calculadora de Frete (API ViaCEP) -->
             <section class="col-md-5 mb-4" aria-labelledby="cep-titulo">
                 <div class="card h-100 shadow-sm p-4 border-0">
                     <h2 id="cep-titulo" class="h4 text-secondary">Calcular Frete</h2>
@@ -79,12 +86,12 @@
                 </div>
             </section>
 
-            <!-- Carrinho de Compras -->
+            <!-- Carrinho de Compras Dinâmico -->
             <section id="carrinho-secao" class="col-md-7 mb-4" aria-labelledby="cart-titulo">
                 <div class="card h-100 shadow-sm p-4 border-0">
                     <h2 id="cart-titulo" class="h4">Seu Carrinho</h2>
                     <ul id="cart-items" class="list-group list-group-flush mb-3" aria-live="polite">
-                        <li class="list-group-item text-muted text-center border-0">Carrinho vazio.</li>
+                        <li class="list-group-item text-muted text-center border-0">O carrinho está vazio.</li>
                     </ul>
                     <div class="d-grid gap-2">
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -100,16 +107,16 @@
 
     <footer id="rodape" class="bg-dark text-light py-5 mt-5 text-center">
         <p class="mb-0">Desenvolvido por <strong>Rissi Eduardo</strong> &copy; 2023</p>
-        <p class="small text-muted mt-2">Projeto acadêmico DevStars.</p>
+        <p class="small text-muted mt-2">Projeto acadêmico DevStars - Inovação e Acessibilidade.</p>
     </footer>    
 
-    <!-- JS do Bootstrap (Link corrigido) -->
+    <!-- JS do Bootstrap (Link Corrigido) -->
     <script src="https://jsdelivr.net"></script>
     
-    <!-- Biblioteca de Confetes (Link corrigido) -->
+    <!-- Biblioteca de Confetes para Finalização de Compra (Link Corrigido) -->
     <script src="https://jsdelivr.net"></script>
     
-    <!-- Seu Script Principal -->
+    <!-- Lógica de Negócio e Integração com APIs -->
     <script src="main.js"></script>
 </body>
 </html>
