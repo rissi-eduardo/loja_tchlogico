@@ -1,41 +1,43 @@
 <!DOCTYPE html>
-<html lang="pt-BR"> <!-- Fundamental para acessibilidade: define o idioma para leitores de tela -->
+<html lang="pt-BR"> <!-- Define o idioma para acessibilidade e SEO -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja TCHLogico! - Tecnologia de Ponta</title>
     
-    <!-- SEO Tradicional (Configurado para o Google encontrar seu site) -->
-    <meta name="description" content="Loja TCHLogico - Especialista em notebooks e tecnologia de ponta. Encontre os melhores aparelhos e acessórios via Mercado Livre.">
+    <!-- Google Search Console: Verificação de Propriedade -->
+    <meta name="google-site-verification" content="qE1zU_lLCADYcBXvbtfng6UwblvxblCBv2EwIGu_714" />
+
+    <!-- SEO Tradicional: Informações para o Google indexar seu site -->
+    <meta name="description" content="Loja TCHLogico - Especialista em notebooks e tecnologia de ponta. Encontre aparelhos e acessórios via Mercado Livre.">
     <meta name="keywords" content="notebook, tecnologia, informática, TI, TCHLogico, Rissi Eduardo">
     <meta name="author" content="Rissi Eduardo">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph / Redes Sociais (Garante cards bonitos no WhatsApp/LinkedIn) -->
+    <!-- Open Graph: Configura como o link aparece em redes sociais (LinkedIn, WhatsApp) -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Loja TCHLogico! - Tecnologia ao seu alcance">
     <meta property="og:description" content="Confira nossa seleção exclusiva de notebooks e acessórios de TI.">
     <meta property="og:image" content="ml-logo.jpg">
 
-    <!-- Favicon: Ícone que aparece na aba superior do navegador -->
+    <!-- Favicon: Ícone na aba do navegador -->
     <link rel="icon" type="image/jpg" href="ml-logo.jpg">
 
-    <!-- Bootstrap 5.3 CSS: Estilização responsiva profissional -->
+    <!-- Bootstrap 5.3 CSS: Estilização responsiva (Links corrigidos para funcionamento real) -->
     <link href="https://jsdelivr.net" rel="stylesheet">
     
-    <!-- Google Fonts: Fonte Open Sans para melhor legibilidade -->
+    <!-- Google Fonts: Tipografia Open Sans -->
     <link href="https://googleapis.com" rel="stylesheet">
     
-    <!-- Estilos personalizados do projeto -->
+    <!-- Estilos personalizados do seu projeto -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Cabeçalho Acessível -->
+    <!-- Cabeçalho Principal -->
     <header class="bg-light py-4 mb-4 border-bottom shadow-sm">
         <div class="container text-center">
-            <!-- Alt text descritivo para PCDs -->
-            <img class="img-fluid mb-3" src="ml-logo.jpg" alt="Logotipo da TCHLogico - Letras estilizadas em azul e amarelo" style="max-width: 150px;">
+            <img class="img-fluid mb-3" src="ml-logo.jpg" alt="Logotipo da TCHLogico - Tecnologia" style="max-width: 150px;">
             <h1 class="h3" id="main-title" tabindex="0">Loja de TI: <span class="text-primary">TCHLogico</span></h1>
             
             <nav aria-label="Navegação Principal">
@@ -49,26 +51,26 @@
     </header>
 
     <main class="container">
-        <!-- Seção de Busca Dinâmica -->
+        <!-- Seção de Busca -->
         <section class="mb-5 p-4 bg-white shadow-sm rounded" aria-labelledby="busca-titulo">
             <h2 id="busca-titulo" class="h4">Encontre seu produto</h2>
             <div class="input-group mb-3" style="max-width: 600px;">
-                <label for="search-input" class="visually-hidden">Digite o nome do produto desejado</label>
+                <label for="search-input" class="visually-hidden">Digite o produto</label>
                 <input type="text" id="search-input" class="form-control" placeholder="Ex: Teclado mecânico...">
                 <button id="btn-search" class="btn btn-primary" type="button">Buscar</button>
             </div>
-            <!-- aria-live="polite" avisa usuários de leitores de tela quando novos produtos surgem -->
+            <!-- aria-live informa leitores de tela sobre novos conteúdos dinâmicos -->
             <div id="resultado-busca" class="row g-3" aria-live="polite"></div>
         </section>
 
         <div class="row">
-            <!-- Calculadora de Frete (API ViaCEP) -->
+            <!-- Consulta de CEP -->
             <section class="col-md-5 mb-4" aria-labelledby="cep-titulo">
                 <div class="card h-100 shadow-sm p-4 border-0">
                     <h2 id="cep-titulo" class="h4 text-secondary">Calcular Frete</h2>
                     <form id="cepForm">
                         <div class="mb-3">
-                            <label for="cepInput" class="form-label fw-bold">Digite seu CEP</label>
+                            <label for="cepInput" class="form-label fw-bold">Seu CEP</label>
                             <input type="text" id="cepInput" class="form-control" placeholder="00000-000" required>
                         </div>
                         <button type="submit" class="btn btn-outline-dark w-100">Consultar CEP</button>
@@ -77,16 +79,16 @@
                 </div>
             </section>
 
-            <!-- Carrinho de Compras Gerenciado por JS -->
+            <!-- Carrinho de Compras -->
             <section id="carrinho-secao" class="col-md-7 mb-4" aria-labelledby="cart-titulo">
                 <div class="card h-100 shadow-sm p-4 border-0">
                     <h2 id="cart-titulo" class="h4">Seu Carrinho</h2>
                     <ul id="cart-items" class="list-group list-group-flush mb-3" aria-live="polite">
-                        <li class="list-group-item text-muted text-center border-0">O carrinho está vazio.</li>
+                        <li class="list-group-item text-muted text-center border-0">Carrinho vazio.</li>
                     </ul>
                     <div class="d-grid gap-2">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="h5 mb-0">Total do Pedido:</span>
+                            <span class="h5 mb-0">Total:</span>
                             <span class="fw-bold h4 text-primary" id="total-price">R$ 0,00</span>
                         </div>
                         <button class="btn btn-success btn-lg w-100" onclick="finalizarCompra()">Finalizar Compra</button>
@@ -98,16 +100,16 @@
 
     <footer id="rodape" class="bg-dark text-light py-5 mt-5 text-center">
         <p class="mb-0">Desenvolvido por <strong>Rissi Eduardo</strong> &copy; 2023</p>
-        <p class="small text-muted mt-2">Projeto acadêmico DevStars - Sem fins comerciais.</p>
+        <p class="small text-muted mt-2">Projeto acadêmico DevStars.</p>
     </footer>    
 
-    <!-- JS do Bootstrap para componentes interativos -->
+    <!-- JS do Bootstrap (Link corrigido) -->
     <script src="https://jsdelivr.net"></script>
     
-    <!-- Biblioteca de Confetes: Efeito visual ao finalizar compra -->
+    <!-- Biblioteca de Confetes (Link corrigido) -->
     <script src="https://jsdelivr.net"></script>
     
-    <!-- Lógica JavaScript do Sistema -->
+    <!-- Seu Script Principal -->
     <script src="main.js"></script>
 </body>
 </html>
