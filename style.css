@@ -1,27 +1,45 @@
 /* ==========================================================================
+   0. VARIÁVEIS DO PROJETO (Manutenção Facilitada)
+   ========================================================================== */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --dark-color: #212529;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --transition-fast: 0.3s ease;
+}
+
+/* ==========================================================================
    1. RESET E CONFIGURAÇÕES GERAIS
-   Objetivo: Garantir que o site tenha o mesmo comportamento em todos os browsers.
    ========================================================================== */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Garante que padding não aumente o tamanho dos elementos */
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Open Sans', Arial, sans-serif;
-    background-color: #f8f9fa; /* Fundo levemente cinza para reduzir cansaço visual */
+    background-color: var(--light-bg);
     color: #333;
     line-height: 1.6;
-    scroll-behavior: smooth; /* Proporciona uma rolagem suave ao clicar nos links do menu */
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Respeito à sensibilidade visual (PCD - Cinetose/Labirintite) */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
 }
 
 /* ==========================================================================
    2. ACESSIBILIDADE (PCD)
-   Objetivo: Garantir que o site seja utilizável por leitores de tela e teclado.
    ========================================================================== */
-
-/* Esconde elementos visualmente mas mantém a leitura para softwares de acessibilidade */
 .visually-hidden {
     position: absolute !important;
     width: 1px !important;
@@ -30,13 +48,13 @@ body {
     margin: -1px !important;
     overflow: hidden !important;
     clip: rect(0,0,0,0) !important;
+    white-space: nowrap !important;
     border: 0 !important;
 }
 
-/* Realce visual para navegação via teclado (fundamental para acessibilidade) */
-a:focus, button:focus, input:focus {
-    outline: 3px solid #0d6efd;
-    outline-offset: 2px;
+:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
 }
 
 /* ==========================================================================
@@ -44,163 +62,186 @@ a:focus, button:focus, input:focus {
    ========================================================================== */
 header {
     background-color: #ffffff;
-    border-bottom: 2px solid #eee;
-    padding: 20px 0;
-    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 25px 0;
 }
 
 .logo {
-    max-width: 120px;
+    max-width: 130px;
     height: auto;
-    transition: transform 0.5s ease-in-out; /* Suaviza o efeito de rotação */
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .logo:hover {
-    transform: rotate(360deg); /* Easter egg visual ao passar o mouse */
+    transform: scale(1.1) rotate(5deg);
 }
 
 .nav-link {
-    color: #007bff;
+    color: var(--secondary-color);
     font-weight: 600;
+    position: relative;
+    transition: color var(--transition-fast);
     text-decoration: none;
-    transition: color 0.3s;
 }
 
 .nav-link:hover {
-    color: #f06; /* Mudança de cor ao passar o mouse para feedback do usuário */
+    color: var(--primary-color);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: width var(--transition-fast);
+}
+
+.nav-link:hover::after {
+    width: 100%;
 }
 
 /* ==========================================================================
-   4. CARTÕES E SEÇÕES (Busca, CEP, Carrinho)
+   4. CARTÕES E PRODUTOS (Visual Moderno)
    ========================================================================== */
 .card {
     background: #ffffff;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    padding: 20px;
-    margin-bottom: 20px;
-    animation: slideIn 0.8s ease-out; /* Efeito de entrada ao carregar a página */
+    border: none !important;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow var(--transition-fast);
 }
 
-h1, h2, h3 {
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-/* Estilização dos produtos carregados pela API do Mercado Livre */
 .product-card {
-    border: 1px solid #eee;
-    padding: 15px;
-    border-radius: 10px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #f0f0f0;
+    border-radius: 15px;
+    background: #fff;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .product-card:hover {
-    transform: translateY(-5px); /* Efeito de flutuação ao passar o mouse */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    border-color: var(--primary-color);
 }
 
-/* Garante que as imagens dos produtos tenham o mesmo tamanho e não fiquem distorcidas */
 .card-img-top {
     object-fit: contain;
-    height: 140px;
-    padding: 10px;
+    height: 160px;
+    background-color: #fff;
+    padding: 15px;
+    border-bottom: 1px solid #f9f9f9;
 }
 
 /* ==========================================================================
-   5. FORMULÁRIOS E BOTÕES
+   5. BOTÕES E INPUTS
    ========================================================================== */
-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: #f9f9f9;
-    margin-bottom: 10px;
-    transition: border-color 0.3s, background-color 0.3s;
+.form-control {
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 2px solid #eee;
+    transition: all var(--transition-fast);
 }
 
-input:focus {
-    border-color: #0d6efd;
-    background-color: #fff;
+.form-control:focus {
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.15);
+    border-color: var(--primary-color);
+    outline: none;
 }
 
-.btn-primary, .btn-search {
-    background-color: #007bff;
-    color: white;
+.btn {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-fast);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
     border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    transition: background 0.3s;
+    color: white;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
 }
 
-.btn-search:hover {
-    background-color: #0056b3;
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(13, 110, 253, 0.4);
 }
 
-.btn-success {
-    background-color: #28a745;
-    transition: background 0.3s;
-}
-
-/* Resultado do CEP com destaque visual */
 #resultado-cep {
     margin-top: 15px;
-    padding: 10px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #007bff, #00d4ff);
+    padding: 15px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0d6efd 0%, #0045a5 100%);
     color: white;
-    font-weight: bold;
-    animation: fadeIn 1s;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
 }
 
 /* ==========================================================================
-   6. RODAPÉ
+   6. CARRINHO DE COMPRAS E ANIMAÇÃO DE SACUDIDA
    ========================================================================== */
+#cart-items .list-group-item {
+    background: transparent;
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+
+#total-price {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+/* Animação de sacudida suave para o ícone do carrinho */
+@keyframes shake-cart {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    50% { transform: rotate(-15deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Classe aplicada via JS ao adicionar produto */
+.cart-shake {
+    animation: shake-cart 0.5s ease-in-out;
+    display: inline-block; 
+}
+
+/* ==========================================================================
+   7. ANIMAÇÕES DE ENTRADA E RODAPÉ
+   ========================================================================== */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+main section {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
 footer {
-    background-color: #212529;
+    background-color: var(--dark-color);
+    border-top: 4px solid var(--primary-color);
     color: #fff;
-    padding: 30px 0;
+    padding: 50px 0;
+    margin-top: 60px;
     text-align: center;
-    margin-top: 40px;
-    border-top: 5px solid #0d6efd; /* Linha de destaque no topo do rodapé */
 }
 
 /* ==========================================================================
-   7. ANIMAÇÕES
-   ========================================================================== */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideIn {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* ==========================================================================
-   8. RESPONSIVIDADE (Ajustes para Mobile e Tablet)
+   8. RESPONSIVIDADE
    ========================================================================== */
 @media (max-width: 768px) {
-    .container {
-        padding: 0 15px;
-    }
-    
-    h1 {
-        font-size: 1.5rem; /* Diminui o título principal em telas menores */
-    }
-    
-    .card {
-        padding: 15px !important;
-        margin-bottom: 15px;
-    }
-    
-    .logo {
-        max-width: 100px; /* Reduz o logo no celular */
+    header { padding: 15px 0; }
+    .logo { max-width: 100px; }
+    .h2 { font-size: 1.5rem; }
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
+        padding: 14px; 
     }
 }

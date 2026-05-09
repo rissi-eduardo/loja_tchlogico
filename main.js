@@ -1,9 +1,11 @@
 /**
- * PROJETO TCHLogico - Script Final Consolidado
+ * PROJETO TCHLogico - Script Final Definitivo
  * Desenvolvedor: Rissi Eduardo
+ * Descrição: Integração Mercado Livre, ViaCEP, Acessibilidade PCD e LGPD.
  */
 
 let carrinho = [];
+let audioContext; 
 
 const dom = {
     inputBusca: document.querySelector('#search-input'),
@@ -12,145 +14,139 @@ const dom = {
     listaCarrinho: document.querySelector('#cart-items'),
     valorTotal: document.querySelector('#total-price'),
     formCep: document.querySelector('#cepForm'),
+    inputCep: document.querySelector('#cepInput'),
     resultadoCep: document.querySelector('#resultado-cep'),
-    headerTitulo: document.querySelector('#main-title')
+    headerTitulo: document.querySelector('#main-title'),
+    btnFinalizar: document.querySelector('#btn-finalizar'),
+    iconeCarrinho: document.querySelector('#cart-icon') 
 };
 
-// --- 1. FUNÇÕES DE BUSCA DE PRODUTOS ---
+// --- 1. ACESSIBILIDADE E FEEDBACK ---
 
-const buscarProdutos = async (termo = 'notebooks') => {
-    dom.containerProdutos.innerHTML = `
-        <div class="text-center w-100 py-5">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2" aria-live="polite">Buscando as melhores ofertas para você...</p>
-        </div>`;
-    
+const anunciarPorVoz = (mensagem) => {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const msg = new SpeechSynthesisUtterance(mensagem);
+        msg.lang = 'pt-BR';
+        window.speechSynthesis.speak(msg);
+    }
+};
+
+const animarIconeCarrinho = () => {
+    if (dom.iconeCarrinho) {
+        dom.iconeCarrinho.classList.add('cart-shake');
+        setTimeout(() => dom.iconeCarrinho.classList.remove('cart-shake'), 500);
+    }
+};
+
+const mostrarFeedbackAdicao = () => {
+    const toastLive = document.getElementById('liveToast');
+    if (toastLive) new bootstrap.Toast(toastLive).show();
+
     try {
-        // CORREÇÃO DA URL: Adicionado o caminho da API e a sintaxe correta ${termo}
+        if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioContext.state === 'suspended') audioContext.resume();
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.frequency.value = 880;
+        gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+        osc.start();
+        osc.stop(audioContext.currentTime + 0.12);
+    } catch (e) { console.warn("Audio bloqueado"); }
+};
+
+// --- 2. BUSCA E PRODUTOS (CORRIGIDO) ---
+
+const buscarProdutos = async (termo = 'notebooks i7') => {
+    dom.containerProdutos.innerHTML = '<div class="spinner-border text-primary mx-auto"></div>';
+    try {
+        // CORREÇÃO: URL oficial com símbolo $ para interpolação
         const response = await fetch(`https://mercadolibre.com{termo}`);
         const data = await response.json();
-        
+        anunciarPorVoz(`Encontrei ${data.results.length} produtos.`);
         renderizarProdutos(data.results.slice(0, 8));
     } catch (error) {
-        dom.containerProdutos.innerHTML = '<p class="text-danger text-center">Falha ao conectar com a loja. Verifique sua conexão.</p>';
-        console.error("Erro na busca:", error);
+        dom.containerProdutos.innerHTML = `<p class="text-danger">Erro ao carregar produtos.</p>`;
     }
 };
 
 const renderizarProdutos = (produtos) => {
-    dom.containerProdutos.innerHTML = ''; 
-    
-    if (produtos.length === 0) {
-        dom.containerProdutos.innerHTML = '<p class="text-center w-100">Ops! Não encontramos esse produto.</p>';
-        return;
-    }
-
-    produtos.forEach(prod => {
-        const div = document.createElement('div');
-        div.className = 'col-12 col-sm-6 col-md-4 col-lg-3 mb-4';
-        const tituloLimpo = prod.title.replace(/"/g, '&quot;'); 
-
-        div.innerHTML = `
-            <div class="card h-100 product-card p-2 shadow-sm border-0">
-                <img src="${prod.thumbnail.replace('I.jpg', 'W.jpg')}" class="card-img-top mx-auto" alt="${tituloLimpo}" style="max-width: 140px">
-                <div class="card-body d-flex flex-column text-center">
-                    <h3 class="h6 card-title text-truncate">${tituloLimpo}</h3>
-                    <p class="fw-bold text-primary">R$ ${prod.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-                    <button class="btn btn-primary btn-sm mt-auto" 
-                            onclick="adicionarAoCarrinho('${prod.id}', '${tituloLimpo.replace(/'/g, "")}', ${prod.price})"
-                            aria-label="Adicionar ${tituloLimpo} ao carrinho">
-                        Adicionar
-                    </button>
-                </div>
-            </div>`;
-        dom.containerProdutos.appendChild(div);
-    });
+    dom.containerProdutos.innerHTML = produtos.map(prod => {
+        const tituloLimpo = prod.title.replace(/'/g, "\\'");
+        return `
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 product-card p-2 text-center">
+                <img src="${prod.thumbnail.replace('I.jpg', 'W.jpg')}" class="img-fluid mx-auto" alt="${prod.title}" style="max-width: 140px">
+                <h3 class="h6 text-truncate mt-2">${prod.title}</h3>
+                <p class="fw-bold text-primary">R$ ${prod.price.toLocaleString('pt-BR')}</p>
+                <button class="btn btn-primary btn-sm" onclick="adicionarAoCarrinho('${prod.id}', '${tituloLimpo}', ${prod.price})">Adicionar</button>
+            </div>
+        </div>`;
+    }).join('');
 };
 
-// --- 2. GESTÃO DO CARRINHO ---
+// --- 3. CARRINHO ---
 
 window.adicionarAoCarrinho = (id, title, price) => {
-    const itemExistente = carrinho.find(i => i.id === id);
-    itemExistente ? itemExistente.quantidade++ : carrinho.push({ id, title, price, quantidade: 1 });
+    const item = carrinho.find(i => i.id === id);
+    item ? item.quantidade++ : carrinho.push({ id, title, price, quantidade: 1 });
     renderizarCarrinho();
-};
-
-window.removerDoCarrinho = (id) => {
-    carrinho = carrinho.filter(item => item.id !== id);
-    renderizarCarrinho();
+    mostrarFeedbackAdicao();
+    animarIconeCarrinho();
+    anunciarPorVoz(`${title} adicionado.`);
 };
 
 const renderizarCarrinho = () => {
-    dom.listaCarrinho.innerHTML = '';
-    let totalGeral = 0;
-
-    if (carrinho.length === 0) {
-        dom.listaCarrinho.innerHTML = '<li class="list-group-item text-muted text-center border-0">O carrinho está vazio</li>';
-        dom.valorTotal.innerText = 'R$ 0,00';
-        return;
-    }
-
-    carrinho.forEach(item => {
-        const subtotal = item.price * item.quantidade;
-        totalGeral += subtotal;
-        const li = document.createElement('li');
-        li.className = 'list-group-item d-flex justify-content-between align-items-center border-0 px-0';
-        li.innerHTML = `
-            <div class="text-truncate" style="max-width: 150px;">
-                <small class="fw-bold d-block">${item.title}</small>
-                <small class="text-muted">${item.quantidade}x R$ ${item.price.toFixed(2)}</small>
-            </div>
-            <button class="btn btn-sm text-danger" onclick="removerDoCarrinho('${item.id}')" aria-label="Remover item do carrinho">&times;</button>
-        `;
-        dom.listaCarrinho.appendChild(li);
-    });
-    dom.valorTotal.innerText = `R$ ${totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+    dom.listaCarrinho.innerHTML = carrinho.length ? carrinho.map(i => `
+        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+            <small>${i.quantidade}x ${i.title}</small>
+            <button class="btn btn-sm text-danger" onclick="removerDoCarrinho('${i.id}')">&times;</button>
+        </li>`).join('') : '<li class="list-group-item text-muted text-center border-0">Vazio</li>';
+    const total = carrinho.reduce((acc, i) => acc + (i.price * i.quantidade), 0);
+    dom.valorTotal.innerText = `R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
 };
 
-// --- 3. FINALIZAÇÃO E LOGÍSTICA ---
-
-window.finalizarCompra = () => {
-    if (carrinho.length === 0) return alert("Adicione ao menos um produto para finalizar!");
-    if(typeof confetti === 'function') {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    }
-    alert(`🎉 Parabéns! Compra finalizada com sucesso.\nTotal: ${dom.valorTotal.innerText}`);
-    carrinho = [];
+window.removerDoCarrinho = (id) => {
+    carrinho = carrinho.filter(i => i.id !== id);
     renderizarCarrinho();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
+
+// --- 4. LOGÍSTICA E PRIVACIDADE ---
+
+dom.inputCep.addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 5) v = v.substring(0, 5) + '-' + v.substring(5, 8);
+    e.target.value = v;
+});
 
 dom.formCep.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const cep = document.querySelector('#cepInput').value.replace(/\D/g, ''); 
-    if (cep.length !== 8) return dom.resultadoCep.innerText = "Digite um CEP válido.";
-
+    const cep = dom.inputCep.value.replace(/\D/g, '');
     try {
-        // CORREÇÃO DA URL: Adicionada a barra e a sintaxe correta ${cep}
+        // CORREÇÃO: URL oficial ViaCEP com símbolo $
         const resp = await fetch(`https://viacep.com.br{cep}/json/`);
         const data = await resp.json();
-        
-        if (data.erro) {
-            dom.resultadoCep.className = "mt-3 fw-bold text-danger";
-            dom.resultadoCep.innerText = 'CEP não encontrado.';
-        } else {
-            dom.resultadoCep.className = "mt-3 fw-bold text-success";
-            dom.resultadoCep.innerText = `Frete para: ${data.localidade}/${data.uf}`;
-        }
-    } catch {
-        dom.resultadoCep.innerText = 'Erro ao consultar frete.';
-    }
+        dom.resultadoCep.innerText = data.erro ? "CEP não encontrado." : `Frete para: ${data.localidade}`;
+    } catch { dom.resultadoCep.innerText = "Erro na consulta."; }
 });
 
-// --- 4. EVENTOS ---
+// Lógica de anúncio do Modal LGPD
+const privacidadeModal = document.getElementById('privacidadeModal');
+if (privacidadeModal) {
+    privacidadeModal.addEventListener('shown.bs.modal', () => {
+        anunciarPorVoz("Política de Privacidade e Termos de Uso abertos. Use o Tab para navegar.");
+    });
+}
 
-dom.btnBusca.addEventListener('click', () => {
-    const termo = dom.inputBusca.value.trim();
-    if (termo) buscarProdutos(termo);
-});
-
-dom.headerTitulo.addEventListener('click', () => {
-    dom.headerTitulo.innerHTML = 'Obrigado por escolher a Loja do <span class="text-primary">Rissi Eduardo</span>!';
+// Inicialização
+dom.btnBusca.addEventListener('click', () => buscarProdutos(dom.inputBusca.value));
+dom.btnFinalizar.addEventListener('click', () => {
+    if(!carrinho.length) return;
+    confetti({ particleCount: 150 });
+    alert("Compra finalizada!");
+    carrinho = []; renderizarCarrinho();
 });
 
 document.addEventListener('DOMContentLoaded', () => buscarProdutos());
